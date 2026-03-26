@@ -1,0 +1,33 @@
+import cv2
+from ultralytics import YOLO
+#from PIL import Image
+
+MODEL_NAMES = ['yolov8n.pt', 'yolov8s.pt', 'yolov8m.pt', 'yolov8l.pt', 'yolov8x.pt','yolo26n.pt']
+PRE_TRAINED_MODEL = YOLO(MODEL_NAMES[5]) 
+## test plus simples yolov8-n = 16ms // yolov8-m = 1.9ms/-l = 3,3ms
+
+#Foto = Image.open('SacADos.jpeg') 
+
+results = PRE_TRAINED_MODEL('test_Video_rugby.mp4' , save = True, show=True)
+
+#cap = cv2.VideoCapture(0)
+#para mostrar a imagem da webcam principal (source=0)
+# while True:
+#     ret, frame = cap.read()
+#     # Mostra a imagem original da câmera
+#     cv2.imshow("Webcam", frame)
+
+#     # Passa o frame para o YOLO
+#     results = PRE_TRAINED_MODEL(frame)
+
+#     # Pega o frame com as detecções desenhadas
+#     annotated_frame = results[0].plot()
+
+#     # Mostra o frame com YOLO
+#     cv2.imshow("YOLO deteccoes", annotated_frame)
+
+#     # Sai ao apertar q
+#     break
+
+# cap.release()
+# cv2.destroyAllWindows()
