@@ -1,64 +1,26 @@
 import cv2
 import os
-from ultralytics import YOLO
-#from PIL import Image
 
 ### TO SAVE FRAMES
 def frames_saved(video, path):
+
     video_frames = cv2.VideoCapture(video)
-
     cont = 0 
-    ##enquanto o video estiver passsando
-    
-    while(video_frames.isOpened()) : 
-        tilOver, frame = video.read()
 
-        if not tilOver:
-             break 
+    ##enquanto o video estiver passsando
+    while(video_frames.isOpened()) : 
+        ret, frame = video_frames.read()
+
+        if not ret:
+            break
+
+        if cont % 100 == 0:
+            cv2.imwrite(os.path.join(path, f'{cont}.png'), frame)
+
+        cont += 1
         
-        if cont %100 == 0:
-            cv2.imwrite(os.path.join(path, '%d.png' %cont), frame)
-        
-        cont+=1
-           
     cv2.destroyAllWindows()
     video_frames.release()
 
-
-
-MODEL_NAMES = ['yolov8n.pt', 'yolov8s.pt', 'yolov8m.pt', 'yolov8l.pt', 'yolov8x.pt','yolo26n.pt']
-PRE_TRAINED_MODEL = YOLO(MODEL_NAMES[26]) 
-## test plus simples yolov8-n = 16ms // yolov8-m = 1.9ms/-l = 3,3ms
-
-#Foto = Image.open('SacADos.jpeg') 
-
-results = PRE_TRAINED_MODEL('get_frames.mp4' , save = True, show=True)
-
-
 ###chamando a funcao para salvar os frames do video
-frames_saved('get_frames.mp4', 'C:\Users\goliveira-do\Documents\PIR\Tracking-Rugby-Match\Codes\IMGs')
-
-
-
-################################### WEBCAM #############################
-#cap = cv2.VideoCapture(0)
-#para mostrar a imagem da webcam principal (source=0)
-# while True:
-#     ret, frame = cap.read()
-#     # Mostra a imagem original da câmera
-#     cv2.imshow("Webcam", frame)
-
-#     # Passa o frame para o YOLO
-#     results = PRE_TRAINED_MODEL(frame)
-
-#     # Pega o frame com as detecções desenhadas
-#     annotated_frame = results[0].plot()
-
-#     # Mostra o frame com YOLO
-#     cv2.imshow("YOLO deteccoes", annotated_frame)
-
-#     # Sai ao apertar q
-#     break
-
-# cap.release()
-# cv2.destroyAllWindows()
+frames_saved('test_Video_rugby.mp4', 'Frames1')
